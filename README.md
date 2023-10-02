@@ -6,6 +6,27 @@ and best practices.
 
 Under the hood is [Vite] — A next-generation blazing fast bundler, and [electron-builder] for packaging.
 
+## History
+
+This repo was originally forked from an excellent starter by Alex Kozack that can be found here: [vite-electron-builder](https://github.com/cawa-93/vite-electron-builder)
+
+The focus of this repo is to add features that support development under WSL for builds targeting the Windows operating system. Issues pertaining to Linux and macOS are likely to be ignored and unknown. For the target audience, the workflow is roughly thus:
+
+1. Make changes
+2. Run `npm run dev` and an X server (i.e. VcXsrv) installed and running in the Windows OS shows the Linux executable running out of WSL. Hot module replacement works so changes can be made debugged live in many cases.
+3. Run `npm run compile:windows` to regenerate the files in `dist/win-unpacked`
+4. Copy the `win-unpacked` folder outside of the WSL filesystem; desktop is fine, script is better
+5. Run the executable in the `win-unpacked\` folder you copied the files into.
+
+One of the main changes in this version is that when compiling for Windows 10 or higher it utilizes `MicaBrowserWindow` from [GregVido/mica-electron](https://github.com/GregVido/mica-electron). And, by default, MicaBrowserWindow is configured to apply the Acrylic frosted-glass effect to the electron window!
+
+## Change Log
+
+### 1.0.0
+- Add `npm run dev` to build and watch in one step
+- Add `npm run compile:windows` to build only for windows
+- Add support for MicaBrowserWindow and acrylic
+
 ## Features
 
 ### Electron

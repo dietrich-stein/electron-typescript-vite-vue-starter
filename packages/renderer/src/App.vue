@@ -15,7 +15,7 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 
   <p>
     <!-- Example how to inject current app version to UI -->
-    App version: {{ APP_VERSION }} ??
+    App version: {{ APP_VERSION }}
   </p>
 
   <fieldset>
@@ -45,14 +45,22 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
-  background-color: #ff0;
+  color: #fff;
+
+  justify-content: center;
+  /*align-content: center;*/
+  /*box-sizing: border-box;*/
+  display: flex;
+  align-items: center; /*stretch;*/
+  flex-direction: column; /*row;*/
+  flex-wrap: nowrap; /* flex-wrap: wrap; */
+
+  background-color: rgba(0, 0, 0, 0.2);
+  /*height: 100vh;*/
 }
 
 fieldset {
-  margin: 2rem;
+  margin: 1rem;
   padding: 1rem;
 }
 </style>

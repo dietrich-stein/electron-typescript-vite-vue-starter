@@ -1,17 +1,81 @@
-import {app, BrowserWindow} from 'electron';
+import {
+  app,
+  BrowserWindow,
+} from 'electron';
 import {join, resolve} from 'node:path';
+import  * as os from 'os';
+import {
+  //PARAMS,
+  //VALUE,
+  MicaBrowserWindow,
+  //IS_WINDOWS_11,
+  //WIN10
+} from  'mica-electron';
+
+function isWindows10OrGreater() {
+	return (
+		process.platform === 'win32' &&
+		parseInt(os.release().split('.')[0]) >= 10
+	);
+}
 
 async function createWindow() {
-  const browserWindow = new BrowserWindow({
+  const browserOptions = {
+    //backgroundMaterial: 'acrylic',
+    /*
+    frame: false,
+    transparent: false,
+    titleBarStyle: 'hidden',
+    */
+    /*
+    frame: false,
+    transparent: true,
+    */
+    /*
+    titleBarStyle: 'hidden',
+    transparent: true, // window no longer resizeable unless you set titleBarStyle to 'hidden'
+    */
+    //titleBarStyle: 'default',
+    //backgroundColor: '#00000000', // Must be '#00000000' for acrylic?
+    //resizable: true,
+    autoHideMenuBar: true,
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
+    frame: false,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
+      //plugins: true,
+      //nodeIntegration: true,
+      //contextIsolation: true,
+      //backgroundThrottling: false,
+      //webSecurity: false,
       sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
-      webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
+      //webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
     },
-  });
+  };
+
+  //const browserWindow =  new BrowserWindow(browserOptions);
+
+  const browserWindow: BrowserWindow | MicaBrowserWindow = isWindows10OrGreater()
+    ? new MicaBrowserWindow(browserOptions)
+    : new BrowserWindow(browserOptions);
+
+  const isMicaBrowser = (value: MicaBrowserWindow | BrowserWindow): value is MicaBrowserWindow => {
+    return 'setAcrylic' in value;
+  };
+
+  if (isMicaBrowser(browserWindow)) {
+    //browserWindow.setDarkTheme(); // no win10?
+    //browserWindow.setMicaEffect(); // no win10!
+    //browserWindow.setTransparent(); // Transparent window
+    //browserWindow.setBlur(); // Blurred window
+
+    browserWindow.setAcrylic(); // Acrylic window
+
+    // TODO: Needed?
+    // (IS_WINDOWS_11) ? browserWindow.setMicaAcrylic()
+
+    //browserWindow.setBackgroundMaterial('acrylic');
+  }
 
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
@@ -57,7 +121,8 @@ async function createWindow() {
  * Restore an existing BrowserWindow or Create a new BrowserWindow.
  */
 export async function restoreOrCreateWindow() {
-  let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
+  const windows: Electron.BrowserWindow[] = BrowserWindow.getAllWindows();
+  let window = windows.find(w => !w.isDestroyed());
 
   if (window === undefined) {
     window = await createWindow();
