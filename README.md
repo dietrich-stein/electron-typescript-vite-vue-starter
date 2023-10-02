@@ -12,15 +12,21 @@ This repo was originally forked from an excellent starter by Alex Kozack that ca
 
 The focus of this repo is to add features that support development under WSL for builds targeting the Windows operating system. Issues pertaining to Linux and macOS are likely to be ignored and unknown. For the target audience, the workflow is roughly thus:
 
-1. Make changes
-2. Run `npm run dev` and an X server (i.e. VcXsrv) installed and running in the Windows OS shows the Linux executable running out of WSL. Hot module replacement works so changes can be made debugged live in many cases.
-3. Run `npm run compile:windows` to regenerate the files in `dist/win-unpacked`
-4. Copy the `win-unpacked` folder outside of the WSL filesystem; desktop is fine, script is better
-5. Run the executable in the `win-unpacked\` folder you copied the files into.
+1. Make changes.
+2. Test initially using a browser with `npm run dev` or `npm run dev:vite`.
+3. Run `npm run dev:electron` and if you have an X server (i.e. VcXsrv) installed and running in the Windows OS then a window will pop open showing the Linux executable running out of WSL. Hot module replacement works so changes can be made debugged live in many cases.
+4. Run `npm run compile:windows` to regenerate the files in `dist/win-unpacked`
+5. Copy the `win-unpacked` folder outside of the WSL filesystem; desktop is fine. A script is even better.
+6. Run the executable within the `win-unpacked\` folder you copied the files into.
 
 One of the main changes in this version is that when compiling for Windows 10 or higher it utilizes `MicaBrowserWindow` from [GregVido/mica-electron](https://github.com/GregVido/mica-electron). And, by default, MicaBrowserWindow is configured to apply the Acrylic frosted-glass effect to the electron window!
 
 ## Change Log
+
+### 1.0.1
+- Changed `npm run dev` for convenience into `npm run dev:vite`
+- Added `npm run dev:vite` to open a local Vite dev server
+- Added `npm run dev:electron` for what was previously `npm run dev`
 
 ### 1.0.0
 - Add `npm run dev` to build and watch in one step

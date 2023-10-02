@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import ReactiveCounter from '/@/components/ReactiveCounter.vue';
-import ReactiveHash from '/@/components/ReactiveHash.vue';
-import ElectronVersions from '/@/components/ElectronVersions.vue';
-
-const APP_VERSION = import.meta.env.VITE_APP_VERSION;
+  import ReactiveCounter from '/@/components/ReactiveCounter.vue';
+  import ReactiveHash from '/@/components/ReactiveHash.vue';
+  import ElectronVersions from '/@/components/ElectronVersions.vue';
+  const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 </script>
 
 <template>

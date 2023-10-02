@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {versions} from '#preload';
+import { versions } from '#preload';
 </script>
 
 <template>

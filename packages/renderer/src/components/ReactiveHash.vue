@@ -1,9 +1,29 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
-import {sha256sum} from '#preload';
+import { computed, ref } from 'vue';
+import { sha256sum } from '#preload';
 
 const rawString = ref('Hello World');
-const hashedString = computed(() => sha256sum(rawString.value));
+
+/*async function sha256fallback(message: string) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}*/
+
+const hashedString = computed(() => {
+  if (typeof sha256sum !== 'undefined') {
+    return sha256sum(rawString.value);
+  } else {
+    // @TODO: This was just a bit of sillyness anyway. We don't need a fallback.
+    // @TODO: But, if we wanted to, we could pull this off using `vue-async-computed`.
+    return 'n/a'; /*sha256fallback(rawString.value).then(value => {
+      return value;
+    });*/
+  }
+});
+
 </script>
 
 <template>
